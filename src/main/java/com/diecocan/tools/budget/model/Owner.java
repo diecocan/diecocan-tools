@@ -1,4 +1,4 @@
-package org.diecocan.tools.budget.model;
+package com.diecocan.tools.budget.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

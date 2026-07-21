@@ -1,4 +1,4 @@
-package org.diecocan.tools.budget.exceptions;
+package com.diecocan.tools.budget.exceptions;
 
 public class OwnerNotFoundException extends RuntimeException{
 

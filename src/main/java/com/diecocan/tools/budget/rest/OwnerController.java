@@ -1,8 +1,8 @@
-package org.diecocan.tools.budget.rest;
+package com.diecocan.tools.budget.rest;
 
-import org.diecocan.tools.budget.exceptions.OwnerNotFoundException;
-import org.diecocan.tools.budget.model.Owner;
-import org.diecocan.tools.budget.service.Service;
+import com.diecocan.tools.budget.exceptions.OwnerNotFoundException;
+import com.diecocan.tools.budget.model.Owner;
+import com.diecocan.tools.budget.service.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public class OwnerController {
 
                     return service.save(owner);
                 })
-                .orElseGet(() -> service.save(newOwner));
+                .orElseThrow(() -> new OwnerNotFoundException(id));
     }
 
     @DeleteMapping("/{id}")

@@ -2,11 +2,16 @@ pipeline {
     agent any
 
     stages {
-        stage('HELLo') {
+        stage('Build and test') {
             steps {
-                echo 'HELLo from diecocan-tools pipeline'
-                sh 'pwd && ls -la'
+                sh 'mvn clean verify'
             }
+        }
+    }
+
+    post {
+        always {
+            junit 'target/surefire-reports/*.xml'
         }
     }
 }

@@ -1,6 +1,6 @@
-package org.diecocan.tools.budget.rest.advice;
+package com.diecocan.tools.budget.rest.advice;
 
-import org.diecocan.tools.budget.exceptions.OwnerNotFoundException;
+import com.diecocan.tools.budget.exceptions.OwnerNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

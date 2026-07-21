@@ -1,8 +1,8 @@
-package org.diecocan.tools.budget.service.impl;
+package com.diecocan.tools.budget.service.impl;
 
-import org.diecocan.tools.budget.model.Owner;
-import org.diecocan.tools.budget.repository.OwnerRepository;
-import org.diecocan.tools.budget.service.Service;
+import com.diecocan.tools.budget.model.Owner;
+import com.diecocan.tools.budget.repository.OwnerRepository;
+import com.diecocan.tools.budget.service.Service;
 
 import java.util.List;
 import java.util.Optional;
