@@ -1,0 +1,1 @@
+export const OWNERS_BASE_URL = "/v1/owners";

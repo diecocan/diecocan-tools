@@ -1,0 +1,113 @@
+:root {
+    /* color */
+    --color-primary: #2c6ecb;
+    --color-primary-hover: #1f5199;
+    --color-primary-active: #17417a;
+    --color-success: #008060;
+    --color-success-bg: #e3f1df;
+    --color-critical: #d82c0d;
+    --color-critical-bg: #fef1f1;
+    --color-text: #202223;
+    --color-text-secondary: #6d7175;
+    --color-border: #e1e3e5;
+    --color-surface: #ffffff;
+    --color-surface-secondary: #f6f6f7;
+    --color-background: #f1f2f4;
+
+    /* Spacing scale — 4px base unit */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+
+    /* typography */
+    --font-family-base: apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-size-sm: 13px;
+    --font-size-base: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 20px;
+    --font-size-xl: 28px;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+
+    /* elevation and shape */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-medium: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    /* motion */
+    --transition-fast: 150ms ease;
+}
+
+/* reset */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    background-color: var(--color-background);
+    -webkit-font-smoothing: antialiased;
+}
+
+.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-6);
+}
+
+.page-header {
+    margin-bottom: var(--space-6);
+}
+
+.page-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--space-1);
+    color: var(--color-text);
+}
+
+.page-subtitle {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+/* Accessible focus state - applies everywhere, no per-component repetition */
+:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* mobile breakpoint: 640px */
+@media (max-width: 640px) {
+    .page-container{
+        padding: var(--space-4);
+    }
+
+    .page-title {
+        font-size: var(--font-size-lg);
+    }
+}
+
+/* Respect the OS-level "reduce motion" accessibility preference */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+

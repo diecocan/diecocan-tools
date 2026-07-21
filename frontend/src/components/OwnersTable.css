@@ -1,0 +1,251 @@
+.owners-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+/* toolbar: search on the left, add owner form on the right */
+.owners-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-surface-secondary);
+}
+
+.toolbar-divider {
+    width: 1px;
+    align-self: stretch;
+    background-color: var(--color-border);
+    flex-shrink: 0;
+}
+
+.search-field {
+    position: relative;
+    flex: 1 1 240px;
+    max-width: none;
+    flex: 1 1 auto;
+}
+
+.search-field-icon {
+    position: absolute;
+    left: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    pointer-events: none;
+}
+
+.search-field-input {
+    width: 100%;
+    padding: var(--space-2) var(--space-3) var(--space-2) var(--space-8);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-base);
+    background-color: var(--color-surface);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.search-field-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(44, 110, 203, 0.15);
+}
+
+.owner-form {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.text-input, 
+.select-input {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-base);
+    font-family: inherit;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.text-input:focus,
+.select-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(44, 110, 203, 0.15);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.btn-primary:active {
+    background-color: var(--color-primary-active);
+}
+
+/* table */
+.table-wrapper {
+    overflow: auto;
+}
+
+.owners-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.owners-table th {
+    text-align: left;
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.owners-table td {
+    padding: var(--space-3) var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--font-size-base);
+    vertical-align: middle;
+}
+
+.owners-table tbody tr {
+    transition: background-color var(--transition-fast);
+}
+
+.owners-table tbody tr:hover {
+    background-color: var(--color-surface-secondary);
+}
+
+.owners-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.owner-name {
+    font-weight: var(--font-weight-medium);
+}
+
+.col-actions {
+    width: 1%;
+    white-space: wrap;
+}
+
+.row-actions {
+    display: flex;
+    gap: var(--space-1);
+}
+
+.check-box-field {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-base);
+    cursor: pointer;
+}
+
+
+/* status badges */
+.badge {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    border-radius: 999px;
+    font-size: var(font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.badge-success {
+    background-color: var(--color-success-bg);
+    color: var(--color-text-secondary);
+}
+
+.badge-neutral {
+    background-color: var(--color-surface-secondary);
+    color: var(--color-text-secondary);
+}
+
+/* icon only ghost buttons */
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background-color: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.icon-btn:hover {
+    background-color: var(--color-surface-secondary);
+    color: var(--color-text);
+}
+
+.icon-btn-primary:hover {
+    background-color: var(--color-success-bg);
+    color: var(--color-succes);
+}
+
+.icon-btn-danger:hover {
+    background-color: var(--color-critical-bg);
+    color: var(--color-critical);
+}
+
+@media (max-width: 640px) {
+    .owners-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-field {
+        max-width: none;
+    }
+
+    .owner-form {
+        flex-wrap: wrap;
+    }
+
+    .owner-form .text-input,
+    .owner-form .select-input {
+        flex: 1 1 auto;
+    }
+
+    .owner-form .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .toolbar-divider {
+        width: auto;
+        height: 1px;
+    }
+}
