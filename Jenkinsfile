@@ -17,6 +17,7 @@ pipeline {
     post {
         always {
             junit 'target/surefire-reports/*.xml'
+            recordIssues tool: spotBugs(pattern: 'target/spotBugsXml.xml')
         }
     }
 }
