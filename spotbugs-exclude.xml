@@ -1,0 +1,8 @@
+<FindBugsFilter>
+    <!-- Constructor-injected Spring beans (services, repositories) are not
+         externally-mutable state; this pattern otherwise flags nearly every
+         DI constructor in the codebase. -->
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+</FindBugsFilter>
