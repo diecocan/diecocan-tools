@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.1</version>
+        <version>4.1.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -35,6 +35,9 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Boot 4.1.0's BOM pins 11.0.22; override to the latest available
+             patch release to pick up fixes not yet reflected in the BOM. -->
+        <tomcat.version>11.0.24</tomcat.version>
     </properties>
 
     <dependencies>
@@ -55,6 +58,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -118,6 +126,29 @@
                 <executions>
                     <execution>
                         <id>spotbugs-check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>10.0.4</version>
+                <configuration>
+                    <failBuildOnCVSS>7</failBuildOnCVSS>
+                    <nvdApiKey>${nvd.api.key}</nvdApiKey>
+                    <suppressionFiles>dependency-check-suppression.xml</suppressionFiles>
+                    <!-- OSS Index has a very low anonymous-access quota and we have
+                         no account for it; NVD (with our API key) is the primary,
+                         sufficient data source for this gate. -->
+                    <ossindexAnalyzerEnabled>false</ossindexAnalyzerEnabled>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>dependency-check</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>check</goal>

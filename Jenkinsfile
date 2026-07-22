@@ -9,7 +9,10 @@ pipeline {
     stages {
         stage('Build and test') {
             steps {
-                sh 'mvn clean verify'
+                withCredentials([string(credentialsId: 'nvd-api-key', variable: 'NVD_API_KEY')]) {
+                    sh 'mvn clean verify -Dnvd.api.key=$NVD_API_KEY'
+                }
+
             }
         }
     }
