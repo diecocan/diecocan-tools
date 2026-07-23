@@ -40,13 +40,12 @@ pipeline {
             agent { label 'built-in' }
             steps {
                 withCredentials([string(credentialsId: 'fly-api-token', variable: 'FLY_API_TOKEN')]) {
-                        sh "flyctl deploy --image ghcr.io/diecocan/diecocan-tools:${env.GIT_COMMIT} -a diecocan-tools-staging --now"
-                    }
-                    sh '''
-                        sleep 10
-                        curl -sf https://diecocan-tools-staging.fly.dev/v1/owners
-                    '''
+                    sh "flyctl deploy --image ghcr.io/diecocan/diecocan-tools:${env.GIT_COMMIT} -a diecocan-tools-staging --now"
                 }
+                sh '''
+                    sleep 10
+                    curl -sf https://diecocan-tools-staging.fly.dev/v1/owners
+                '''
             }
         }
     }
