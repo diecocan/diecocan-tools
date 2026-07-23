@@ -15,6 +15,13 @@ pipeline {
 
             }
         }
+
+        stage('Docker build') {
+            agent any
+            steps {
+                sh "docker build -t diecocan-tools:${env.GIT_COMMIT} ."
+            }
+        }
     }
 
     post {
