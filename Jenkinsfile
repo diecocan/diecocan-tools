@@ -28,22 +28,25 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'ghcr-pat', usernameVariable: 'GHCR_USER', passwordVariable: 'GHCR_TOKEN')]) {
                     sh """
-                         echo \$GHCR_TOKEN | docker login ghcr.io -u \$GHCR_USER --password-stdin
-                         docker buildx build --platform linux/amd64 -t ghcr.io/diecocan/diecocan-tools:${env.GIT_COMMIT} --push .
-                     """
+                        docker build -t ghcr.io/diecocan/diecocan-tools:${env.GIT_COMMIT} .
+                        echo \$GHCR_TOKEN | docker login ghcr.io -u \$GHCR_USER --password-stdin
+                        docker push ghcr.io/diecocan/diecocan-tools:${env.GIT_COMMIT}
+                    """
                 }
             }
         }
 
-        stage("Deploy to Fly.io (staging)") {
+        stage('Deploy to staging') {
             agent { label 'built-in' }
             steps {
-                withCredentials([string(credentialsId: 'fly-api-token', variable: 'FLY_API_TOKEN')]) {
-                    sh "flyctl deploy --image ghcr.io/diecocan/diecocan-tools:${env.GIT_COMMIT} -a diecocan-tools-staging --now"
-                }
+                sh """
+                    docker stop diecocan-tools-staging || true
+                    docker rm diecocan-tools-staging || true
+                    docker run -d --name diecocan-tools-staging -p 8090:8080 ghcr.io/diecocan/diecocan-tools:${env.GIT_COMMIT}
+                """
                 sh '''
                     sleep 10
-                    curl -sf https://diecocan-tools-staging.fly.dev/v1/owners
+                    curl -sf http://localhost:8090/v1/owners
                 '''
             }
         }
