@@ -26,7 +26,13 @@ pipeline {
         stage('Docker build') {
             agent { label 'built-in' }
             steps {
-                sh "docker build -t diecocan-tools:${env.GIT_COMMIT} ."
+                withCredentials([usernamePassword(credentialsId: 'ghcr-pat', usernameVariable: 'GHCR_USER', passwordVariable: 'GHCR_TOKEN')]) {
+                    sh """
+                        docker build -t ghcr.io/diecocan/diecocan-tools:${env.GIT_COMMIT} .
+                        echo \$GHCR_TOKEN | docker login ghcr.io -u \$GHCR_USER --password-stdin
+                        docker push ghcr.io/diecocan/diecocan-tools:${env.GIT_COMMIT}
+                    """
+                }
             }
         }
     }
