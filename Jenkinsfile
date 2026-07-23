@@ -46,7 +46,7 @@ pipeline {
                 """
                 sh '''
                     sleep 10
-                    curl -sf http://localhost:8090/v1/owners
+                    curl -sf http://host.docker.internal:8090/v1/owners
                 '''
             }
         }
