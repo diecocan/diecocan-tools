@@ -17,7 +17,7 @@ pipeline {
         }
 
         stage('Docker build') {
-            agent any
+            agent { label 'built-in' }
             steps {
                 sh "docker build -t diecocan-tools:${env.GIT_COMMIT} ."
             }
