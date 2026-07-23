@@ -145,6 +145,10 @@
                          no account for it; NVD (with our API key) is the primary,
                          sufficient data source for this gate. -->
                     <ossindexAnalyzerEnabled>false</ossindexAnalyzerEnabled>
+                    <!-- Pin the CVE database location explicitly under the local
+                         Maven repo, so it persists across Jenkins builds via the
+                         maven-repo volume instead of being re-fetched every run. -->
+                    <dataDirectory>${settings.localRepository}/dependency-check-data</dataDirectory>
                 </configuration>
                 <executions>
                     <execution>
