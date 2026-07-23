@@ -28,10 +28,9 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'ghcr-pat', usernameVariable: 'GHCR_USER', passwordVariable: 'GHCR_TOKEN')]) {
                     sh """
-                        docker build -t ghcr.io/diecocan/diecocan-tools:${env.GIT_COMMIT} .
-                        echo \$GHCR_TOKEN | docker login ghcr.io -u \$GHCR_USER --password-stdin
-                        docker push ghcr.io/diecocan/diecocan-tools:${env.GIT_COMMIT}
-                    """
+                         echo \$GHCR_TOKEN | docker login ghcr.io -u \$GHCR_USER --password-stdin
+                         docker buildx build --platform linux/amd64 -t ghcr.io/diecocan/diecocan-tools:${env.GIT_COMMIT} --push .
+                     """
                 }
             }
         }
