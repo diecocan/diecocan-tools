@@ -15,6 +15,12 @@ pipeline {
                 }
 
             }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                    recordIssues tool: spotBugs(pattern: 'target/spotbugsXml.xml')
+                }
+            }
         }
 
         stage('Docker build') {
@@ -22,13 +28,6 @@ pipeline {
             steps {
                 sh "docker build -t diecocan-tools:${env.GIT_COMMIT} ."
             }
-        }
-    }
-
-    post {
-        always {
-            junit 'target/surefire-reports/*.xml'
-            recordIssues tool: spotBugs(pattern: 'target/spotbugsXml.xml')
         }
     }
 }
