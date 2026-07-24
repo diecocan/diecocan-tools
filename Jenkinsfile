@@ -50,5 +50,26 @@ pipeline {
                 '''
             }
         }
+
+        stage('Approval') {
+            steps {
+                input message: 'Promote this build to production?', ok: 'Deploy to production'
+            }
+        }
+
+        stage('Deploy to production') {
+            agent { label 'built-in' }
+            steps {
+                sh """
+                    docker stop diecocan-tools-prod || true
+                    docker rm diecocan-tools-prod || true
+                    docker run -d --name diecocan-tools-prod -p 8091:8080 ghcr.io/diecocan/diecocan-tools:${env.GIT_COMMIT}
+                """
+                sh '''
+                    sleep 10
+                    curl -sf http://host.docker.internal:8091/v1/owners
+                '''
+            }
+        }
     }
 }
