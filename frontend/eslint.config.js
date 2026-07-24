@@ -31,5 +31,22 @@ module.exports = [
         settings: {
             react: { version: 'detect' }
         }
+    },
+    {
+        files: ['src/**/*.test.{js,jsx}'],
+        languageOptions: {
+            globals: {
+                ...globals.jest
+            }
+        }
+    },
+    {
+        files: ['src/__mocks__/**/*.js'],
+        languageOptions: {
+            sourceType: 'commonjs',
+            globals: {
+                ...globals.node
+            }
+        }
     }
 ];
