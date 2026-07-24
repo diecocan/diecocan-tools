@@ -10,15 +10,19 @@ pipeline {
                 }
             }
             steps {
-                sh '''
-                    npm ci
-                    npm run lint
-                    npm test
-                '''
+                dir('frontend') {
+                    sh '''
+                        npm ci
+                        npm run lint
+                        npm test
+                    '''
+                }
             }
             post {
                 always {
-                    junit 'reports/junit.xml'
+                    dir('frontend') {
+                        junit 'reports/junit.xml'
+                    }
                 }
             }
         }
