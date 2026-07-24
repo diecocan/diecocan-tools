@@ -26,5 +26,58 @@ pipeline {
                 }
             }
         }
+
+        stage('Docker build') {
+            agent { label 'built-in' }
+            steps {
+                dir('frontend') {
+                    withCredentials([usernamePassword(credentialsId: 'ghcr-pat', usernameVariable: 'GHCR_USER', passwordVariable: 'GHCR_TOKEN')]) {
+                        sh """
+                            docker build -t ghcr.io/diecocan/diecocan-tools-frontend:${env.GIT_COMMIT} .
+                            echo \$GHCR_TOKEN | docker login ghcr.io -u \$GHCR_USER --password-stdin
+                            docker push ghcr.io/diecocan/diecocan-tools-frontend:${env.GIT_COMMIT}
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to staging') {
+            agent { label 'built-in' }
+            steps {
+                sh """
+                    docker stop diecocan-tools-frontend-staging || true
+                    docker rm diecocan-tools-frontend-staging || true
+                    docker run -d --name diecocan-tools-frontend-staging -p 8092:80 -e BACKEND_PORT=8090 ghcr.io/diecocan/diecocan-tools-frontend:${env.GIT_COMMIT}
+                """
+                sh '''
+                    sleep 5
+                    curl -sf http://host.docker.internal:8092/
+                    curl -sf http://host.docker.internal:8092/v1/owners
+                '''
+            }
+        }
+
+        stage('Approval') {
+            steps {
+                input message: 'Promote this build to production?', ok: 'Deploy to production'
+            }
+        }
+
+        stage('Deploy to production') {
+            agent { label 'built-in' }
+            steps {
+                sh """
+                    docker stop diecocan-tools-frontend-prod || true
+                    docker rm diecocan-tools-frontend-prod || true
+                    docker run -d --name diecocan-tools-frontend-prod -p 8093:80 -e BACKEND_PORT=8091 ghcr.io/diecocan/diecocan-tools-frontend:${env.GIT_COMMIT}
+                """
+                sh '''
+                    sleep 5
+                    curl -sf http://host.docker.internal:8093/
+                    curl -sf http://host.docker.internal:8093/v1/owners
+                '''
+            }
+        }
     }
 }
