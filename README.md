@@ -67,9 +67,19 @@ npm run lint:fix    # ESLint check, auto-fix what's safe
 
 Two independent, self-hosted Jenkins pipelines (Docker), one per deployable component — each takes a commit all the way from build through production. Both pipelines call into [`fraud-pipeline-lib`](https://github.com/diecocan/fraud-pipeline-lib), a shared Jenkins library holding the build/test/containerize/deploy steps common to this project's Jenkinsfiles and `fraud-detection-kafka`'s four (`mavenBuildAndTest`, `nodeBuildAndTest`, `dockerBuildAndPush`, `deployContainer`, `verifyHttp`, `approvalGate`, etc.) — extracted once six near-identical Jenkinsfiles had converged on the same shape:
 
-```
-git push → Build & test → Quality gates → Containerize → Push to GHCR
-         → Deploy to staging → [manual approval] → Deploy to production
+```mermaid
+flowchart LR
+    A[git push] --> B[Build & test]
+    B --> G1[JaCoCo / Jest coverage ≥ 70%]
+    B --> G2[SpotBugs / ESLint]
+    B --> G3[OWASP Dependency-Check\nCVSS ≥ 7 fails the build]
+    G1 --> C[Containerize]
+    G2 --> C
+    G3 --> C
+    C --> D[Push to GHCR\ntag: git commit SHA]
+    D --> E[Deploy: staging]
+    E --> F{Manual approval}
+    F -->|Approved| H[Deploy: production\nsame image, no rebuild]
 ```
 
 **Backend** (`Jenkinsfile`):
