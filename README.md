@@ -65,7 +65,7 @@ npm run lint:fix    # ESLint check, auto-fix what's safe
 
 ## CI/CD Pipeline
 
-Two independent, self-hosted Jenkins pipelines (Docker), one per deployable component — each takes a commit all the way from build through production:
+Two independent, self-hosted Jenkins pipelines (Docker), one per deployable component — each takes a commit all the way from build through production. Both pipelines call into [`fraud-pipeline-lib`](https://github.com/diecocan/fraud-pipeline-lib), a shared Jenkins library holding the build/test/containerize/deploy steps common to this project's Jenkinsfiles and `fraud-detection-kafka`'s four (`mavenBuildAndTest`, `nodeBuildAndTest`, `dockerBuildAndPush`, `deployContainer`, `verifyHttp`, `approvalGate`, etc.) — extracted once six near-identical Jenkinsfiles had converged on the same shape:
 
 ```
 git push → Build & test → Quality gates → Containerize → Push to GHCR
@@ -102,4 +102,3 @@ A manual approval gate sits between staging and production in both pipelines —
 
 - Add loading/error/empty states to the Owners table (currently only `console.error`s on failure)
 - Add client-side validation beyond the `required` attribute on the name field
-- Expand CI/CD to the remaining components of this project (see repo root for the full multi-app plan)
